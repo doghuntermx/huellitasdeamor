@@ -1,6 +1,6 @@
 import Link from "next/link";
 import Image from "next/image";
-import { Mail, Phone } from "lucide-react";
+import { Mail, Phone, Heart } from "lucide-react";
 
 function InstagramIcon(props: React.SVGProps<SVGSVGElement>) {
   return (
@@ -86,7 +86,17 @@ export function Footer() {
 
         <div className="mt-12 flex flex-col items-center justify-between gap-4 border-t border-cream/10 pt-6 text-xs text-cream/50 md:flex-row">
           <p>© {new Date().getFullYear()} Huellitas de Amor A.C. — Todos los derechos reservados.</p>
-          <p>Huellitas de Amor A.C. no es donataria autorizada; los donativos no son deducibles de impuestos.</p>
+          <p className="flex items-center gap-1.5">
+            Hecho con <Heart className="h-3.5 w-3.5 fill-brand-light text-brand-light" /> por{" "}
+            <a
+              href="https://makodigital.com.mx/"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="font-medium text-cream/70 hover:text-brand-light"
+            >
+              Makodigital
+            </a>
+          </p>
         </div>
       </div>
     </footer>
