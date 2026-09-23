@@ -12,17 +12,17 @@ const usos = [
 
 export function NeedSection() {
   return (
-    <section className="relative overflow-hidden bg-ink py-20 text-cream md:py-28">
-      <div className="pointer-events-none absolute right-0 top-0 h-80 w-80 rounded-full bg-brand/20 blur-3xl" />
+    <section className="relative overflow-hidden bg-cream-warm py-20 md:py-28">
+      <div className="pointer-events-none absolute right-0 top-0 h-80 w-80 rounded-full bg-brand/15 blur-3xl" />
       <div className="relative mx-auto max-w-5xl px-5 md:px-8">
         <Reveal className="mx-auto max-w-2xl text-center">
-          <p className="text-sm font-semibold uppercase tracking-widest text-brand-light">
+          <p className="text-sm font-semibold uppercase tracking-widest text-brand">
             La necesidad es todos los días
           </p>
-          <h2 className="mt-2 text-balance font-display text-3xl font-semibold sm:text-4xl">
+          <h2 className="mt-2 text-balance font-display text-3xl font-semibold text-ink sm:text-4xl">
             Mientras lees esto, alguien más está esperando su segunda oportunidad
           </h2>
-          <p className="mt-4 text-cream/70">
+          <p className="mt-4 text-ink-soft">
             Ningún rescate termina el mismo día que llega. Cada huellita necesita
             tiempo, cuidado y recursos constantes para sanar. Esto es en qué se
             convierte tu apoyo:
@@ -32,17 +32,17 @@ export function NeedSection() {
         <RevealGroup className="mt-12 grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-4">
           {usos.map((u) => (
             <RevealItem key={u.label}>
-              <div className="h-full rounded-2xl border border-cream/10 bg-white/5 p-6 transition-colors hover:border-brand-light/40 hover:bg-white/10">
-                <u.icon className="h-7 w-7 text-brand-light" />
-                <h3 className="mt-4 font-display text-lg font-semibold">{u.label}</h3>
-                <p className="mt-1.5 text-sm text-cream/60">{u.detail}</p>
+              <div className="h-full rounded-2xl border border-ink/10 bg-white p-6 shadow-sm transition-colors hover:border-brand/40">
+                <u.icon className="h-7 w-7 text-brand" />
+                <h3 className="mt-4 font-display text-lg font-semibold text-ink">{u.label}</h3>
+                <p className="mt-1.5 text-sm text-ink-soft">{u.detail}</p>
               </div>
             </RevealItem>
           ))}
         </RevealGroup>
 
         <Reveal delay={0.15} className="mt-12 flex justify-center">
-          <MagneticButton href="/donar" variant="amber" icon={<ArrowRight className="h-4 w-4" />}>
+          <MagneticButton href="/donar" variant="dark" icon={<ArrowRight className="h-4 w-4" />}>
             Quiero apoyar hoy
           </MagneticButton>
         </Reveal>

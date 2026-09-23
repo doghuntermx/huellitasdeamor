@@ -8,10 +8,6 @@
   --color-ink-soft: #4a3441;
   --color-cream: #fffaf7;
   --color-cream-warm: #fdece3;
-  --color-amber: #f2a33d;
-  --color-amber-dark: #c97f22;
-  --color-sage: #5f9c7c;
-  --color-sage-light: #e4f2ea;
 }
 
 @theme inline {
@@ -22,10 +18,6 @@
   --color-ink-soft: var(--color-ink-soft);
   --color-cream: var(--color-cream);
   --color-cream-warm: var(--color-cream-warm);
-  --color-amber: var(--color-amber);
-  --color-amber-dark: var(--color-amber-dark);
-  --color-sage: var(--color-sage);
-  --color-sage-light: var(--color-sage-light);
   --font-display: var(--font-fraunces);
   --font-sans: var(--font-jakarta);
 }
@@ -95,9 +87,9 @@ body {
 .shimmer-badge {
   background: linear-gradient(
     110deg,
-    var(--color-sage) 40%,
-    #bfe4cf 50%,
-    var(--color-sage) 60%
+    var(--color-brand) 40%,
+    var(--color-brand-light) 50%,
+    var(--color-brand) 60%
   );
   background-size: 200% 100%;
   animation: shimmer 2.8s ease-in-out infinite;

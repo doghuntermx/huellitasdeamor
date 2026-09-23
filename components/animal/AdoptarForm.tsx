@@ -37,9 +37,9 @@ export function AdoptarForm({ nombreAnimal }: { nombreAnimal: string }) {
       <motion.div
         initial={{ opacity: 0, y: 10 }}
         animate={{ opacity: 1, y: 0 }}
-        className="rounded-2xl bg-sage-light p-6 text-center"
+        className="rounded-2xl bg-brand/10 p-6 text-center"
       >
-        <CheckCircle2 className="mx-auto h-8 w-8 text-sage" />
+        <CheckCircle2 className="mx-auto h-8 w-8 text-brand" />
         <p className="mt-3 font-display text-lg font-semibold text-ink">
           ¡Recibimos tu solicitud para {nombreAnimal}!
         </p>

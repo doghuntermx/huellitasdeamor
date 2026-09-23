@@ -9,7 +9,7 @@ export function ReadingProgress() {
   return (
     <motion.div
       style={{ scaleX }}
-      className="fixed left-0 right-0 top-0 z-[60] h-1 origin-left bg-gradient-to-r from-brand via-brand-light to-amber"
+      className="fixed left-0 right-0 top-0 z-[60] h-1 origin-left bg-gradient-to-r from-brand via-brand-light to-ink"
     />
   );
 }

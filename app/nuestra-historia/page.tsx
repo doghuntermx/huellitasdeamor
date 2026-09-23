@@ -29,18 +29,18 @@ export default function NuestraHistoriaPage() {
     <>
       <ReadingProgress />
 
-      <section className="relative overflow-hidden bg-ink pb-20 pt-16 text-cream md:pb-28 md:pt-24">
-        <div className="pointer-events-none absolute -left-20 top-0 h-72 w-72 rounded-full bg-brand/20 blur-3xl" />
+      <section className="relative overflow-hidden bg-cream pb-20 pt-16 md:pb-28 md:pt-24">
+        <div className="pointer-events-none absolute -left-20 top-0 h-72 w-72 rounded-full bg-brand/15 blur-3xl" />
         <div className="relative mx-auto max-w-3xl px-5 text-center md:px-8">
           <Reveal>
-            <p className="text-sm font-semibold uppercase tracking-widest text-brand-light">
+            <p className="text-sm font-semibold uppercase tracking-widest text-brand">
               Nuestra Historia
             </p>
           </Reveal>
           <Reveal delay={0.08}>
-            <h1 className="mt-4 text-balance font-display text-3xl font-semibold leading-tight sm:text-4xl md:text-5xl">
+            <h1 className="mt-4 text-balance font-display text-3xl font-semibold leading-tight text-ink sm:text-4xl md:text-5xl">
               Todo comenzó con una decisión sencilla:{" "}
-              <span className="italic text-brand-light">no mirar hacia otro lado.</span>
+              <span className="italic text-brand">no mirar hacia otro lado.</span>
             </h1>
           </Reveal>
         </div>
@@ -142,8 +142,8 @@ export default function NuestraHistoriaPage() {
           <div className="grid grid-cols-1 gap-6 sm:grid-cols-3">
             {territorios.map((t, i) => (
               <Reveal key={t.n} delay={i * 0.1}>
-                <div className="h-full rounded-2xl border border-cream/10 bg-white/5 p-6 text-center">
-                  <span className="font-display text-3xl font-semibold text-brand-light/60">
+                <div className="h-full rounded-2xl border border-cream/15 bg-cream/5 p-6 text-center">
+                  <span className="font-display text-3xl font-semibold text-brand-light">
                     {t.n}
                   </span>
                   <p className="mt-3 font-display text-lg font-medium">{t.t}</p>
@@ -161,10 +161,10 @@ export default function NuestraHistoriaPage() {
           </p>
         </Reveal>
         <Reveal delay={0.12} className="mt-10 flex flex-wrap justify-center gap-4">
-          <MagneticButton href="/donar" variant="amber" icon={<ArrowRight className="h-4 w-4" />}>
+          <MagneticButton href="/donar" variant="brand" icon={<ArrowRight className="h-4 w-4" />}>
             Donar hoy
           </MagneticButton>
-          <MagneticButton href="/solicitar-apoyo" variant="ghost" icon={<ArrowRight className="h-4 w-4" />}>
+          <MagneticButton href="/solicitar-apoyo" variant="outline" icon={<ArrowRight className="h-4 w-4" />}>
             Solicitar Apoyo
           </MagneticButton>
         </Reveal>

@@ -58,7 +58,7 @@ export default async function AnimalPage(props: PageProps<"/adopciones/[slug]">)
               "inline-flex items-center gap-1.5 rounded-full px-3.5 py-1.5 text-xs font-semibold text-white",
               adoptado && "shimmer-badge",
               animal.estado === "disponible" && "bg-brand",
-              animal.estado === "en_proceso" && "bg-amber text-ink"
+              animal.estado === "en_proceso" && "bg-ink"
             )}
           >
             {adoptado && <Sparkles className="h-3.5 w-3.5" />}
@@ -145,8 +145,8 @@ export default async function AnimalPage(props: PageProps<"/adopciones/[slug]">)
       )}
 
       {adoptado && (
-        <Reveal delay={0.15} className="mx-auto mt-16 max-w-xl rounded-3xl bg-sage-light p-8 text-center">
-          <Sparkles className="mx-auto h-8 w-8 text-sage" />
+        <Reveal delay={0.15} className="mx-auto mt-16 max-w-xl rounded-3xl bg-brand/10 p-8 text-center">
+          <Sparkles className="mx-auto h-8 w-8 text-brand" />
           <p className="mt-3 font-display text-xl font-semibold text-ink">
             {animal.nombre} ya encontró su segunda oportunidad
           </p>

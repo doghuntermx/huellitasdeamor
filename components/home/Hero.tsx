@@ -8,9 +8,9 @@ import { CountUp } from "@/components/ui/CountUp";
 
 const ctas = [
   { href: "/adopciones", label: "Adoptar", icon: PawPrint, variant: "brand" as const },
-  { href: "/donar", label: "Donar", icon: Heart, variant: "amber" as const },
-  { href: "/solicitar-apoyo", label: "Solicitar Apoyo", icon: HandHeart, variant: "ghost" as const },
-  { href: "/nuestra-historia", label: "Conoce Nuestra Historia", icon: BookHeart, variant: "outline" as const },
+  { href: "/donar", label: "Donar", icon: Heart, variant: "dark" as const },
+  { href: "/solicitar-apoyo", label: "Solicitar Apoyo", icon: HandHeart, variant: "brand" as const },
+  { href: "/nuestra-historia", label: "Conoce Nuestra Historia", icon: BookHeart, variant: "dark" as const },
 ];
 
 export function Hero() {
@@ -22,19 +22,19 @@ export function Hero() {
   const opacity = useTransform(scrollYProgress, [0, 0.8], [1, 0]);
 
   return (
-    <section ref={ref} className="relative overflow-hidden bg-ink pb-24 pt-20 md:pb-32 md:pt-28">
+    <section ref={ref} className="relative overflow-hidden bg-cream pb-24 pt-20 md:pb-32 md:pt-28">
       {/* fondo con huellas flotantes */}
       <div className="pointer-events-none absolute inset-0">
-        <div className="absolute -left-10 top-10 h-72 w-72 rounded-full bg-brand/25 blur-3xl" />
-        <div className="absolute right-0 top-1/3 h-96 w-96 rounded-full bg-amber/10 blur-3xl" />
+        <div className="absolute -left-10 top-10 h-72 w-72 rounded-full bg-brand/15 blur-3xl" />
+        <div className="absolute right-0 top-1/3 h-96 w-96 rounded-full bg-ink/5 blur-3xl" />
         <motion.div style={{ y: y1 }} className="absolute left-[8%] top-[18%] opacity-20 float-slow" aria-hidden>
-          <PawPrint className="h-16 w-16 text-brand-light" style={{ "--r": "-18deg" } as React.CSSProperties} />
+          <PawPrint className="h-16 w-16 text-brand" style={{ "--r": "-18deg" } as React.CSSProperties} />
         </motion.div>
-        <motion.div style={{ y: y2 }} className="absolute right-[12%] top-[55%] opacity-15 float-slow" aria-hidden>
-          <PawPrint className="h-24 w-24 text-brand-light" style={{ "--r": "12deg" } as React.CSSProperties} />
+        <motion.div style={{ y: y2 }} className="absolute right-[12%] top-[55%] opacity-10 float-slow" aria-hidden>
+          <PawPrint className="h-24 w-24 text-ink" style={{ "--r": "12deg" } as React.CSSProperties} />
         </motion.div>
-        <motion.div style={{ y: y1 }} className="absolute right-[25%] top-[10%] opacity-10 float-slow" aria-hidden>
-          <PawPrint className="h-10 w-10 text-amber" />
+        <motion.div style={{ y: y1 }} className="absolute right-[25%] top-[10%] opacity-15 float-slow" aria-hidden>
+          <PawPrint className="h-10 w-10 text-brand" />
         </motion.div>
       </div>
 
@@ -43,7 +43,7 @@ export function Hero() {
           initial={{ opacity: 0, y: 10 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6 }}
-          className="inline-flex items-center gap-2 rounded-full bg-white/10 px-4 py-1.5 text-xs font-semibold uppercase tracking-widest text-brand-light"
+          className="inline-flex items-center gap-2 rounded-full bg-ink px-4 py-1.5 text-xs font-semibold uppercase tracking-widest text-cream"
         >
           Segundas oportunidades
         </motion.span>
@@ -52,18 +52,18 @@ export function Hero() {
           initial={{ opacity: 0, y: 24 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, delay: 0.1, ease: [0.16, 1, 0.3, 1] }}
-          className="mt-6 text-balance font-display text-4xl font-semibold leading-[1.08] text-cream sm:text-5xl md:text-6xl"
+          className="mt-6 text-balance font-display text-4xl font-semibold leading-[1.08] text-ink sm:text-5xl md:text-6xl"
         >
           Las huellas más pequeñas <br className="hidden sm:block" />
           pueden{" "}
-          <span className="italic text-brand-light">cambiar el mundo</span>.
+          <span className="italic text-brand">cambiar el mundo</span>.
         </motion.h1>
 
         <motion.p
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, delay: 0.25, ease: [0.16, 1, 0.3, 1] }}
-          className="mx-auto mt-6 max-w-2xl text-balance text-base text-cream/75 sm:text-lg"
+          className="mx-auto mt-6 max-w-2xl text-balance text-base text-ink-soft sm:text-lg"
         >
           Rescatamos, curamos y encontramos hogar para animales en situación de
           calle. Nadie rescata solo — y cada huellita que llega también
@@ -76,8 +76,8 @@ export function Hero() {
           transition={{ duration: 0.8, delay: 0.4 }}
           className="mt-10 flex items-baseline justify-center gap-3"
         >
-          <CountUp value={1000} suffix="+" className="font-display text-4xl font-semibold text-brand-light sm:text-5xl" />
-          <span className="text-sm text-cream/60 sm:text-base">
+          <CountUp value={1000} suffix="+" className="font-display text-4xl font-semibold text-brand sm:text-5xl" />
+          <span className="text-sm text-ink-soft sm:text-base">
             huellitas ya encontraron su segunda oportunidad
           </span>
         </motion.div>

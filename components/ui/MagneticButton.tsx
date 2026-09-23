@@ -8,16 +8,15 @@ import { cn } from "@/lib/utils";
 interface MagneticButtonProps {
   href: string;
   children: ReactNode;
-  variant?: "brand" | "amber" | "ghost" | "outline";
+  variant?: "brand" | "dark" | "outline";
   className?: string;
   icon?: ReactNode;
 }
 
 const variants: Record<string, string> = {
   brand: "bg-brand text-cream hover:bg-brand-dark shadow-lg shadow-brand/25",
-  amber: "bg-amber text-ink hover:bg-amber-dark shadow-lg shadow-amber/30",
-  ghost: "bg-white/90 text-ink hover:bg-white shadow-lg shadow-ink/10",
-  outline: "border-2 border-cream text-cream hover:bg-cream hover:text-ink",
+  dark: "bg-ink text-cream hover:bg-ink/85 shadow-lg shadow-ink/25",
+  outline: "border-2 border-ink text-ink hover:bg-ink hover:text-cream",
 };
 
 export function MagneticButton({

@@ -53,9 +53,9 @@ export function SolicitarApoyoForm() {
       <motion.div
         initial={{ opacity: 0, y: 10 }}
         animate={{ opacity: 1, y: 0 }}
-        className="mx-auto max-w-lg rounded-3xl bg-sage-light p-8 text-center"
+        className="mx-auto max-w-lg rounded-3xl bg-brand/10 p-8 text-center"
       >
-        <CheckCircle2 className="mx-auto h-9 w-9 text-sage" />
+        <CheckCircle2 className="mx-auto h-9 w-9 text-brand" />
         <h2 className="mt-4 font-display text-xl font-semibold text-ink">
           Recibimos tu solicitud
         </h2>

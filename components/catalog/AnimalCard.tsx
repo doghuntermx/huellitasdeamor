@@ -41,7 +41,7 @@ export function AnimalCard({ animal, index = 0 }: { animal: Animal; index?: numb
               "absolute left-3 top-3 flex items-center gap-1 rounded-full px-3 py-1 text-xs font-semibold text-white shadow-sm",
               adoptado && "shimmer-badge",
               animal.estado === "disponible" && "bg-brand",
-              animal.estado === "en_proceso" && "bg-amber text-ink"
+              animal.estado === "en_proceso" && "bg-ink"
             )}
           >
             {adoptado && <Sparkles className="h-3 w-3" />}

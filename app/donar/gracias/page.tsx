@@ -20,8 +20,8 @@ export default async function DonarGraciasPage(
   return (
     <div className="mx-auto flex min-h-[70vh] max-w-xl flex-col items-center justify-center px-5 py-16 text-center md:px-8">
       <Reveal>
-        <div className="mx-auto flex h-16 w-16 items-center justify-center rounded-full bg-sage-light">
-          <HeartHandshake className="h-8 w-8 text-sage" />
+        <div className="mx-auto flex h-16 w-16 items-center justify-center rounded-full bg-brand/10">
+          <HeartHandshake className="h-8 w-8 text-brand" />
         </div>
       </Reveal>
       <Reveal delay={0.1}>
