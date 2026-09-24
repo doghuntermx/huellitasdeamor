@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
-import { Bone, Syringe, Stethoscope, Home as HomeIcon } from "lucide-react";
+import Link from "next/link";
+import { Bone, Syringe, Stethoscope, Home as HomeIcon, ArrowRight, Users } from "lucide-react";
 import { DonarForm } from "@/components/forms/DonarForm";
 import { Reveal } from "@/components/ui/Reveal";
 import { CountUp } from "@/components/ui/CountUp";
@@ -51,6 +52,21 @@ export default function DonarPage() {
           <Reveal delay={0.3} className="mt-8 flex items-baseline gap-2 rounded-2xl bg-ink px-6 py-5 text-cream">
             <CountUp value={1000} suffix="+" className="font-display text-3xl font-semibold text-brand-light" />
             <span className="text-sm text-cream/70">huellitas con una segunda oportunidad gracias a personas como tú</span>
+          </Reveal>
+
+          <Reveal delay={0.36} className="mt-4 flex items-center justify-between gap-3 rounded-2xl border border-brand/20 bg-brand/5 px-6 py-4">
+            <p className="text-sm text-ink">
+              <Users className="mb-0.5 mr-1.5 inline h-4 w-4 text-brand" />
+              ¿Prefieres ayudar cada mes? Conoce el{" "}
+              <span className="font-semibold">Círculo de Socios</span>.
+            </p>
+            <Link
+              href="/circulo-de-socios"
+              className="group inline-flex shrink-0 items-center gap-1 text-sm font-semibold text-brand"
+            >
+              Ver
+              <ArrowRight className="h-3.5 w-3.5 transition-transform group-hover:translate-x-1" />
+            </Link>
           </Reveal>
         </div>
 

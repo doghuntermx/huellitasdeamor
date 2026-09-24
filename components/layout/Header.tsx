@@ -9,11 +9,12 @@ import { Menu, X, Heart } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 const links = [
-  { href: "/nuestra-historia", label: "Nuestra Historia" },
-  { href: "/casos-de-exito", label: "Casos de Éxito" },
-  { href: "/adopciones", label: "Adopciones" },
-  { href: "/solicitar-apoyo", label: "Solicitar Apoyo" },
-  { href: "/contacto", label: "Contacto" },
+  { href: "/nuestra-historia", label: "Nuestra Historia", navLabel: "Nuestra Historia" },
+  { href: "/casos-de-exito", label: "Casos de Éxito", navLabel: "Casos de Éxito" },
+  { href: "/adopciones", label: "Adopciones", navLabel: "Adopciones" },
+  { href: "/circulo-de-socios", label: "Círculo de Socios", navLabel: "Socios" },
+  { href: "/solicitar-apoyo", label: "Solicitar Apoyo", navLabel: "Apoyo" },
+  { href: "/contacto", label: "Contacto", navLabel: "Contacto" },
 ];
 
 export function Header() {
@@ -60,17 +61,17 @@ export function Header() {
           </span>
         </Link>
 
-        <nav className="hidden items-center gap-8 md:flex">
+        <nav className="hidden items-center gap-5 lg:flex">
           {links.map((l) => (
             <Link
               key={l.href}
               href={l.href}
               className={cn(
-                "relative text-sm font-medium text-ink-soft transition-colors hover:text-brand",
+                "relative whitespace-nowrap text-sm font-medium text-ink-soft transition-colors hover:text-brand",
                 pathname === l.href && "text-brand"
               )}
             >
-              {l.label}
+              {l.navLabel}
               {pathname === l.href && (
                 <motion.span
                   layoutId="nav-underline"
@@ -81,7 +82,7 @@ export function Header() {
           ))}
           <Link
             href="/donar"
-            className="inline-flex items-center gap-1.5 rounded-full bg-brand px-5 py-2.5 text-sm font-semibold text-cream shadow-md shadow-brand/25 transition-transform hover:scale-105 hover:bg-brand-dark"
+            className="inline-flex shrink-0 items-center gap-1.5 rounded-full bg-brand px-5 py-2.5 text-sm font-semibold text-cream shadow-md shadow-brand/25 transition-transform hover:scale-105 hover:bg-brand-dark"
           >
             <Heart className="h-4 w-4 fill-current" />
             Donar
@@ -89,7 +90,7 @@ export function Header() {
         </nav>
 
         <button
-          className="flex h-10 w-10 items-center justify-center rounded-full text-ink md:hidden"
+          className="flex h-10 w-10 items-center justify-center rounded-full text-ink lg:hidden"
           onClick={() => setOpen((o) => !o)}
           aria-label="Abrir menú"
         >
@@ -104,7 +105,7 @@ export function Header() {
             animate={{ height: "auto", opacity: 1 }}
             exit={{ height: 0, opacity: 0 }}
             transition={{ duration: 0.3, ease: [0.16, 1, 0.3, 1] }}
-            className="overflow-hidden border-t border-ink/5 bg-cream md:hidden"
+            className="overflow-hidden border-t border-ink/5 bg-cream lg:hidden"
           >
             <div className="flex flex-col gap-1 px-5 py-4">
               {links.map((l) => (

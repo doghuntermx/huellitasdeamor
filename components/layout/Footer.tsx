@@ -52,6 +52,7 @@ export function Footer() {
               <li><Link href="/nuestra-historia" className="text-cream/80 hover:text-brand-light">Nuestra Historia</Link></li>
               <li><Link href="/casos-de-exito" className="text-cream/80 hover:text-brand-light">Casos de Éxito</Link></li>
               <li><Link href="/adopciones" className="text-cream/80 hover:text-brand-light">Adopciones</Link></li>
+              <li><Link href="/circulo-de-socios" className="text-cream/80 hover:text-brand-light">Círculo de Socios</Link></li>
               <li><Link href="/donar" className="text-cream/80 hover:text-brand-light">Donar</Link></li>
               <li><Link href="/solicitar-apoyo" className="text-cream/80 hover:text-brand-light">Solicitar Apoyo</Link></li>
               <li><Link href="/contacto" className="text-cream/80 hover:text-brand-light">Contacto</Link></li>

@@ -40,3 +40,12 @@ export interface ImpactoStats {
   esterilizaciones: number;
   enTratamiento: number;
 }
+
+export interface NivelSocio {
+  id: string;
+  nombre: string;
+  montoMensual: number;
+  descripcion: string;
+  beneficios: string[];
+  destacado?: boolean;
+}
