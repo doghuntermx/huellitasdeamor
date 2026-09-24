@@ -10,6 +10,7 @@ import { cn } from "@/lib/utils";
 
 const links = [
   { href: "/nuestra-historia", label: "Nuestra Historia" },
+  { href: "/casos-de-exito", label: "Casos de Éxito" },
   { href: "/adopciones", label: "Adopciones" },
   { href: "/solicitar-apoyo", label: "Solicitar Apoyo" },
   { href: "/contacto", label: "Contacto" },

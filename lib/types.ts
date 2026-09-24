@@ -20,3 +20,23 @@ export interface Animal {
 }
 
 export type TipoSolicitud = "reporte_calle" | "apoyo_mascota_propia";
+
+export interface CasoExito {
+  id: string;
+  slug: string;
+  nombre: string;
+  especie: "perro" | "gato";
+  fotoAntes: string;
+  fotoDespues: string;
+  historiaBreve: string;
+  fechaRescate: string;
+  fechaAdopcion?: string;
+  tiempoRecuperacion?: string;
+}
+
+export interface ImpactoStats {
+  totalRescatados: number;
+  adoptados: number;
+  esterilizaciones: number;
+  enTratamiento: number;
+}
