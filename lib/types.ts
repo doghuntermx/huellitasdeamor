@@ -49,3 +49,41 @@ export interface NivelSocio {
   beneficios: string[];
   destacado?: boolean;
 }
+
+export type EstadoSolicitud = "nueva" | "en_revision" | "atendida";
+
+export interface SolicitudApoyo {
+  id: string;
+  tipo: TipoSolicitud;
+  nombreContacto: string;
+  telefono: string;
+  email?: string;
+  descripcion: string;
+  ubicacion?: string;
+  nombreAnimal?: string;
+  estado: EstadoSolicitud;
+  createdAt: string;
+}
+
+export interface SocioActivo {
+  id: string;
+  nombre: string;
+  email: string;
+  nivelId: string;
+  montoMensual: number;
+  fechaAlta: string;
+  estado: "activo" | "cancelado";
+}
+
+export type EstadoDonativo = "pendiente" | "completado" | "fallido";
+
+export interface Donativo {
+  id: string;
+  monto: number;
+  moneda: string;
+  metodoPago: string;
+  estado: EstadoDonativo;
+  nombreDonante: string;
+  emailDonante: string;
+  createdAt: string;
+}
