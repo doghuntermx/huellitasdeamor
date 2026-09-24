@@ -4,8 +4,8 @@ import { getAnimalesDestacados } from "@/lib/data/animales";
 import { AnimalCard } from "@/components/catalog/AnimalCard";
 import { Reveal, RevealGroup, RevealItem } from "@/components/ui/Reveal";
 
-export function FeaturedAnimals() {
-  const destacados = getAnimalesDestacados();
+export async function FeaturedAnimals() {
+  const destacados = await getAnimalesDestacados();
 
   return (
     <section className="mx-auto max-w-6xl px-5 py-20 md:px-8 md:py-28">

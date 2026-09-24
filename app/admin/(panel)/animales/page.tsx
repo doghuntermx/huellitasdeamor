@@ -13,7 +13,7 @@ const estadoLabel: Record<string, string> = {
 };
 
 export default function AdminAnimalesPage() {
-  const { animales, deleteAnimal } = useAdminData();
+  const { animales, cargandoAnimales, deleteAnimal } = useAdminData();
   const [confirmarBorrar, setConfirmarBorrar] = useState<string | null>(null);
 
   return (
@@ -21,7 +21,9 @@ export default function AdminAnimalesPage() {
       <div className="flex items-center justify-between gap-3">
         <div>
           <h1 className="font-display text-2xl font-semibold text-ink">Animales</h1>
-          <p className="mt-1 text-sm text-ink-soft">{animales.length} en el catálogo</p>
+          <p className="mt-1 text-sm text-ink-soft">
+            {cargandoAnimales ? "Cargando desde Supabase…" : `${animales.length} en el catálogo`}
+          </p>
         </div>
         <Link
           href="/admin/animales/nuevo"

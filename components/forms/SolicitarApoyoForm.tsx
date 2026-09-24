@@ -8,6 +8,7 @@ import { AnimatePresence, motion } from "framer-motion";
 import { AlertTriangle, Stethoscope, CheckCircle2, ArrowLeft } from "lucide-react";
 import type { TipoSolicitud } from "@/lib/types";
 import { cn } from "@/lib/utils";
+import { createClient } from "@/lib/supabase/client";
 
 const baseFields = {
   nombreContacto: z.string().min(2, "Cuéntanos tu nombre"),
@@ -120,6 +121,7 @@ export function SolicitarApoyoForm() {
 }
 
 function ReporteForm({ onSuccess }: { onSuccess: () => void }) {
+  const [errorEnvio, setErrorEnvio] = useState(false);
   const {
     register,
     handleSubmit,
@@ -127,15 +129,28 @@ function ReporteForm({ onSuccess }: { onSuccess: () => void }) {
   } = useForm<ReporteData>({ resolver: zodResolver(reporteSchema) });
 
   async function onSubmit(data: ReporteData) {
-    // TODO: insertar en `solicitudes_apoyo` (tipo: reporte_calle) vía
-    // /api/solicitudes y disparar notificación interna al equipo.
-    await new Promise((r) => setTimeout(r, 700));
-    console.log("Reporte de calle", data);
+    setErrorEnvio(false);
+    const supabase = createClient();
+    // TODO: además de insertar, disparar notificación interna al equipo
+    // (correo vía Resend u otro proveedor) cuando se conecte.
+    const { error } = await supabase.from("solicitudes_apoyo").insert({
+      tipo: "reporte_calle",
+      nombre_contacto: data.nombreContacto,
+      telefono: data.telefono,
+      email: data.email || null,
+      descripcion: data.descripcion,
+      ubicacion: data.ubicacion,
+    });
+    if (error) {
+      setErrorEnvio(true);
+      return;
+    }
     onSuccess();
   }
 
   return (
     <form onSubmit={handleSubmit(onSubmit)} className="space-y-4 rounded-3xl bg-white p-6 shadow-sm ring-1 ring-ink/5 md:p-8">
+      {errorEnvio && <ErrorEnvio />}
       <Field label="Ubicación del animal" error={errors.ubicacion?.message}>
         <input {...register("ubicacion")} className={inputCls} placeholder="Calle, colonia, referencias" />
       </Field>
@@ -159,6 +174,7 @@ function ReporteForm({ onSuccess }: { onSuccess: () => void }) {
 }
 
 function PropiaForm({ onSuccess }: { onSuccess: () => void }) {
+  const [errorEnvio, setErrorEnvio] = useState(false);
   const {
     register,
     handleSubmit,
@@ -166,15 +182,28 @@ function PropiaForm({ onSuccess }: { onSuccess: () => void }) {
   } = useForm<PropiaData>({ resolver: zodResolver(propiaSchema) });
 
   async function onSubmit(data: PropiaData) {
-    // TODO: insertar en `solicitudes_apoyo` (tipo: apoyo_mascota_propia) vía
-    // /api/solicitudes y disparar notificación interna al equipo.
-    await new Promise((r) => setTimeout(r, 700));
-    console.log("Apoyo mascota propia", data);
+    setErrorEnvio(false);
+    const supabase = createClient();
+    // TODO: además de insertar, disparar notificación interna al equipo
+    // (correo vía Resend u otro proveedor) cuando se conecte.
+    const { error } = await supabase.from("solicitudes_apoyo").insert({
+      tipo: "apoyo_mascota_propia",
+      nombre_contacto: data.nombreContacto,
+      telefono: data.telefono,
+      email: data.email || null,
+      descripcion: data.descripcion,
+      nombre_animal: data.nombreAnimal,
+    });
+    if (error) {
+      setErrorEnvio(true);
+      return;
+    }
     onSuccess();
   }
 
   return (
     <form onSubmit={handleSubmit(onSubmit)} className="space-y-4 rounded-3xl bg-white p-6 shadow-sm ring-1 ring-ink/5 md:p-8">
+      {errorEnvio && <ErrorEnvio />}
       <Field label="Nombre de tu mascota" error={errors.nombreAnimal?.message}>
         <input {...register("nombreAnimal")} className={inputCls} />
       </Field>
@@ -207,6 +236,15 @@ function Field({ label, error, children }: { label: string; error?: string; chil
       {children}
       {error && <p className="mt-1 text-xs text-brand">{error}</p>}
     </div>
+  );
+}
+
+function ErrorEnvio() {
+  return (
+    <p className="flex items-center gap-2 rounded-xl bg-brand/10 px-4 py-2.5 text-sm text-brand-dark">
+      <AlertTriangle className="h-4 w-4 shrink-0" />
+      No pudimos enviar tu solicitud. Revisa tu conexión e intenta de nuevo.
+    </p>
   );
 }
 

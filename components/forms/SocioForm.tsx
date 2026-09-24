@@ -1,12 +1,14 @@
 "use client";
 
+import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
-import { CreditCard, HeartHandshake } from "lucide-react";
+import { CreditCard, HeartHandshake, AlertTriangle } from "lucide-react";
 import type { NivelSocio } from "@/lib/types";
 import { formatMXN } from "@/lib/utils";
+import { createClient } from "@/lib/supabase/client";
 
 const schema = z.object({
   nombre: z.string().min(2, "Cuéntanos tu nombre"),
@@ -18,6 +20,7 @@ type FormData = z.infer<typeof schema>;
 
 export function SocioForm({ nivel }: { nivel: NivelSocio }) {
   const router = useRouter();
+  const [errorEnvio, setErrorEnvio] = useState(false);
   const {
     register,
     handleSubmit,
@@ -25,11 +28,24 @@ export function SocioForm({ nivel }: { nivel: NivelSocio }) {
   } = useForm<FormData>({ resolver: zodResolver(schema) });
 
   async function onSubmit(data: FormData) {
-    // TODO: crear suscripción recurrente real (Clip Suscripciones u otro
-    // proveedor con soporte de cobro mensual) vía
-    // /api/socios/crear-suscripcion, y guardar el socio en Supabase solo
-    // tras confirmación del proveedor de pago — nunca antes.
-    await new Promise((r) => setTimeout(r, 700));
+    setErrorEnvio(false);
+    const supabase = createClient();
+    // Se guarda como intención de membresía en estado "pendiente": el cobro
+    // recurrente real todavía no está conectado (falta Clip Suscripciones u
+    // otro proveedor con soporte de cobro mensual). Este registro NO
+    // significa que ya se cobró nada.
+    const { error } = await supabase.from("socios").insert({
+      nombre: data.nombre,
+      email: data.email,
+      telefono: data.telefono,
+      nivel_id: nivel.id,
+      monto_mensual: nivel.montoMensual,
+      estado: "pendiente",
+    });
+    if (error) {
+      setErrorEnvio(true);
+      return;
+    }
     const params = new URLSearchParams({
       nivel: nivel.nombre,
       monto: String(nivel.montoMensual),
@@ -40,6 +56,12 @@ export function SocioForm({ nivel }: { nivel: NivelSocio }) {
 
   return (
     <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
+      {errorEnvio && (
+        <p className="flex items-center gap-2 rounded-xl bg-brand/10 px-4 py-2.5 text-sm text-brand-dark">
+          <AlertTriangle className="h-4 w-4 shrink-0" />
+          No pudimos registrar tu inscripción. Intenta de nuevo.
+        </p>
+      )}
       <div className="flex items-center justify-between rounded-2xl bg-cream-warm px-5 py-4">
         <div>
           <p className="text-xs font-semibold uppercase tracking-wide text-ink-soft/70">

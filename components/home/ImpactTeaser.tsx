@@ -1,12 +1,14 @@
 import Link from "next/link";
 import { ArrowRight } from "lucide-react";
-import { casosExito, impacto } from "@/lib/data/casos-exito";
+import { getCasosExito, impacto } from "@/lib/data/casos-exito";
 import { BeforeAfterSlider } from "@/components/impact/BeforeAfterSlider";
 import { CountUp } from "@/components/ui/CountUp";
 import { Reveal } from "@/components/ui/Reveal";
 
-export function ImpactTeaser() {
+export async function ImpactTeaser() {
+  const casosExito = await getCasosExito();
   const destacado = casosExito[0];
+  if (!destacado) return null;
 
   return (
     <section className="mx-auto max-w-6xl px-5 py-20 md:px-8 md:py-28">

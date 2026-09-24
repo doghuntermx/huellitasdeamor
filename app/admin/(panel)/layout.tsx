@@ -95,7 +95,7 @@ export default function AdminPanelLayout({ children }: { children: ReactNode }) 
       <div className="flex-1">
         <div className="flex items-center gap-2 bg-ink px-5 py-2.5 text-xs text-cream md:px-8">
           <AlertTriangle className="h-3.5 w-3.5 shrink-0 text-brand-light" />
-          Vista previa de demostración: los cambios aquí no se guardan de forma permanente todavía.
+          Vista previa: Animales ya se lee de Supabase, pero editar/crear/borrar aquí solo cambia esta sesión. Solicitudes, Socios y Donativos siguen siendo datos de muestra.
         </div>
 
         <nav className="flex gap-1 overflow-x-auto border-b border-ink/10 bg-white px-3 py-2 md:hidden">

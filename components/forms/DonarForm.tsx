@@ -6,8 +6,9 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 import { motion } from "framer-motion";
-import { CreditCard, Landmark, Store, Heart } from "lucide-react";
+import { CreditCard, Landmark, Store, Heart, AlertTriangle } from "lucide-react";
 import { cn, formatMXN } from "@/lib/utils";
+import { createClient } from "@/lib/supabase/client";
 
 const montosSugeridos = [150, 300, 500, 1000];
 
@@ -29,6 +30,7 @@ export function DonarForm() {
   const [monto, setMonto] = useState<number>(300);
   const [montoLibre, setMontoLibre] = useState("");
   const [metodo, setMetodo] = useState<(typeof metodos)[number]["id"]>("tarjeta");
+  const [errorEnvio, setErrorEnvio] = useState(false);
   const {
     register,
     handleSubmit,
@@ -38,10 +40,24 @@ export function DonarForm() {
   const montoFinal = montoLibre ? Number(montoLibre) : monto;
 
   async function onSubmit(data: FormData) {
-    // TODO: reemplazar por creación real de Checkout hospedado de Clip vía
-    // /api/donativos/crear-checkout, y redirigir al link devuelto por la API.
-    // La confirmación real depende del webhook de Clip, no de este formulario.
-    await new Promise((r) => setTimeout(r, 700));
+    setErrorEnvio(false);
+    const supabase = createClient();
+    // Se registra como "pendiente": el cobro real todavía no está
+    // conectado (falta el Checkout hospedado de Clip). La fuente de verdad
+    // de si el pago se completó será siempre el webhook del proveedor, no
+    // este formulario — ver TODO en huellitas-web-fase1-brief-tecnico.md.
+    const { error } = await supabase.from("donativos").insert({
+      monto: montoFinal,
+      moneda: "MXN",
+      metodo_pago: metodo,
+      estado: "pendiente",
+      nombre_donante: data.nombre,
+      email_donante: data.email,
+    });
+    if (error) {
+      setErrorEnvio(true);
+      return;
+    }
     const params = new URLSearchParams({
       monto: String(montoFinal),
       metodo,
@@ -52,6 +68,12 @@ export function DonarForm() {
 
   return (
     <form onSubmit={handleSubmit(onSubmit)} className="space-y-8">
+      {errorEnvio && (
+        <p className="flex items-center gap-2 rounded-xl bg-brand/10 px-4 py-2.5 text-sm text-brand-dark">
+          <AlertTriangle className="h-4 w-4 shrink-0" />
+          No pudimos registrar tu donativo. Intenta de nuevo.
+        </p>
+      )}
       <div>
         <h2 className="font-display text-lg font-semibold text-ink">Elige un monto</h2>
         <div className="mt-3 grid grid-cols-2 gap-3 sm:grid-cols-4">

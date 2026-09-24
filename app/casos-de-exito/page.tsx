@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import { ArrowRight } from "lucide-react";
-import { casosExito, impacto } from "@/lib/data/casos-exito";
+import { getCasosExito, impacto } from "@/lib/data/casos-exito";
 import { CasoCard } from "@/components/impact/CasoCard";
 import { ImpactPanel } from "@/components/impact/ImpactPanel";
 import { Reveal, RevealGroup, RevealItem } from "@/components/ui/Reveal";
@@ -12,7 +12,9 @@ export const metadata: Metadata = {
     "Historias reales de antes y después: huellitas que encontraron su segunda oportunidad gracias a quienes no miraron hacia otro lado.",
 };
 
-export default function CasosDeExitoPage() {
+export default async function CasosDeExitoPage() {
+  const casosExito = await getCasosExito();
+
   return (
     <div>
       <section className="relative overflow-hidden bg-cream pb-16 pt-16 md:pb-20 md:pt-24">

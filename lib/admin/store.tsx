@@ -1,7 +1,7 @@
 "use client";
 
-import { createContext, useContext, useMemo, useState, type ReactNode } from "react";
-import { animales as animalesIniciales } from "@/lib/data/animales";
+import { createContext, useContext, useEffect, useMemo, useState, type ReactNode } from "react";
+import { createClient } from "@/lib/supabase/client";
 import {
   solicitudesMock,
   sociosActivosMock,
@@ -16,22 +16,48 @@ import type {
 } from "@/lib/types";
 
 /**
- * Store en memoria para el mockup del panel de administración.
+ * Store del panel de administración.
  *
- * IMPORTANTE: nada de esto persiste. Es una simulación de CRUD para validar
- * el diseño y el flujo antes de invertir en conectar Supabase de verdad.
- * TODO (backend real):
- *  - animales: reemplazar por SELECT/INSERT/UPDATE/DELETE sobre la tabla
- *    `animales` en Supabase (ver huellitas-web-fase1-brief-tecnico.md).
- *  - solicitudes: reemplazar por la tabla `solicitudes_apoyo`.
- *  - socios/donativos: requieren además la integración real de cobro
- *    recurrente y del webhook de Clip respectivamente; estas vistas deben
- *    ser de solo lectura hasta entonces, reflejando lo que confirme el
- *    proveedor de pago — nunca lo que el panel "cree" que pasó.
+ * `animales` ya se lee de verdad desde Supabase (su SELECT es público), pero
+ * las acciones de alta/edición/borrado siguen aplicándose solo en memoria:
+ * falta conectar autenticación de administrador + políticas de RLS para
+ * permitir escrituras reales desde este panel.
+ *
+ * `solicitudes`, `socios` y `donativos` siguen siendo datos de muestra: sus
+ * tablas ya reciben inserciones reales desde los formularios públicos, pero
+ * no tienen política de SELECT para el rol anónimo (contienen datos
+ * personales), así que este panel no puede leerlas todavía sin esa
+ * autenticación real.
+ *
+ * TODO (backend real): Supabase Auth para el equipo + políticas de RLS que
+ * permitan a un usuario autenticado con rol de administrador leer y escribir
+ * estas cuatro tablas.
  */
+
+function mapAnimalRow(row: Record<string, unknown>): Animal {
+  return {
+    id: row.id as string,
+    slug: row.slug as string,
+    nombre: row.nombre as string,
+    especie: row.especie as Animal["especie"],
+    razaAproximada: (row.raza_aproximada as string) ?? undefined,
+    edadAproximada: row.edad_aproximada as string,
+    tamano: row.tamano as Animal["tamano"],
+    sexo: row.sexo as Animal["sexo"],
+    sucursal: row.sucursal as string,
+    estado: row.estado as Animal["estado"],
+    historiaCorta: row.historia_corta as string,
+    personalidad: (row.personalidad as string[]) ?? [],
+    requisitosAdopcion: (row.requisitos_adopcion as string[]) ?? [],
+    fotos: (row.fotos as string[]) ?? [],
+    fechaIngreso: row.fecha_ingreso as string,
+    destacado: (row.destacado as boolean) ?? false,
+  };
+}
 
 interface AdminStore {
   animales: Animal[];
+  cargandoAnimales: boolean;
   addAnimal: (a: Animal) => void;
   updateAnimal: (id: string, a: Partial<Animal>) => void;
   deleteAnimal: (id: string) => void;
@@ -46,14 +72,28 @@ interface AdminStore {
 const AdminDataContext = createContext<AdminStore | null>(null);
 
 export function AdminDataProvider({ children }: { children: ReactNode }) {
-  const [animales, setAnimales] = useState<Animal[]>(animalesIniciales);
+  const [animales, setAnimales] = useState<Animal[]>([]);
+  const [cargandoAnimales, setCargandoAnimales] = useState(true);
   const [solicitudes, setSolicitudes] = useState<SolicitudApoyo[]>(solicitudesMock);
   const [socios] = useState<SocioActivo[]>(sociosActivosMock);
   const [donativos] = useState<Donativo[]>(donativosMock);
 
+  useEffect(() => {
+    const supabase = createClient();
+    supabase
+      .from("animales")
+      .select("*")
+      .order("created_at", { ascending: false })
+      .then(({ data, error }) => {
+        if (!error && data) setAnimales(data.map(mapAnimalRow));
+        setCargandoAnimales(false);
+      });
+  }, []);
+
   const value = useMemo<AdminStore>(
     () => ({
       animales,
+      cargandoAnimales,
       addAnimal: (a) => setAnimales((prev) => [a, ...prev]),
       updateAnimal: (id, patch) =>
         setAnimales((prev) => prev.map((a) => (a.id === id ? { ...a, ...patch } : a))),
@@ -66,7 +106,7 @@ export function AdminDataProvider({ children }: { children: ReactNode }) {
       socios,
       donativos,
     }),
-    [animales, solicitudes, socios, donativos]
+    [animales, cargandoAnimales, solicitudes, socios, donativos]
   );
 
   return <AdminDataContext.Provider value={value}>{children}</AdminDataContext.Provider>;

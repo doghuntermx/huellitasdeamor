@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { animales } from "@/lib/data/animales";
+import { getAnimales } from "@/lib/data/animales";
 import { CatalogClient } from "@/components/catalog/CatalogClient";
 import { Reveal } from "@/components/ui/Reveal";
 
@@ -9,7 +9,9 @@ export const metadata: Metadata = {
     "Conoce a las huellitas que buscan un hogar hoy. Filtra por especie, tamaño, edad, sexo y sucursal.",
 };
 
-export default function AdopcionesPage() {
+export default async function AdopcionesPage() {
+  const animales = await getAnimales();
+
   return (
     <div className="mx-auto max-w-6xl px-5 py-14 md:px-8 md:py-20">
       <Reveal className="max-w-2xl">

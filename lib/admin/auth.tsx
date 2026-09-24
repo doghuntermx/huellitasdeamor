@@ -38,7 +38,11 @@ export function AdminAuthProvider({ children }: { children: ReactNode }) {
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
+    // Lectura de localStorage: debe ocurrir tras montar para que el primer
+    // render del cliente coincida con el del servidor (evita mismatch de
+    // hidratación), igual que en components/ui/PawCursor.tsx.
     try {
+      // eslint-disable-next-line react-hooks/set-state-in-effect
       setIsAuthenticated(window.localStorage.getItem(STORAGE_KEY) === "true");
     } catch {
       // localStorage no disponible (modo privado, etc.) — se queda sin sesión.

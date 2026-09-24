@@ -2,13 +2,14 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { ArrowLeft, Heart, MapPin, Sparkles } from "lucide-react";
-import { animales, getAnimalPorSlug } from "@/lib/data/animales";
+import { getAnimales, getAnimalPorSlug } from "@/lib/data/animales";
 import { Gallery } from "@/components/animal/Gallery";
 import { AdoptarForm } from "@/components/animal/AdoptarForm";
 import { Reveal } from "@/components/ui/Reveal";
 import { cn } from "@/lib/utils";
 
-export function generateStaticParams() {
+export async function generateStaticParams() {
+  const animales = await getAnimales();
   return animales.map((a) => ({ slug: a.slug }));
 }
 
@@ -16,7 +17,7 @@ export async function generateMetadata(
   props: PageProps<"/adopciones/[slug]">
 ): Promise<Metadata> {
   const { slug } = await props.params;
-  const animal = getAnimalPorSlug(slug);
+  const animal = await getAnimalPorSlug(slug);
   if (!animal) return {};
   return {
     title: animal.nombre,
@@ -32,7 +33,7 @@ const estadoLabel: Record<string, string> = {
 
 export default async function AnimalPage(props: PageProps<"/adopciones/[slug]">) {
   const { slug } = await props.params;
-  const animal = getAnimalPorSlug(slug);
+  const animal = await getAnimalPorSlug(slug);
   if (!animal) notFound();
 
   const adoptado = animal.estado === "adoptado";
@@ -138,7 +139,7 @@ export default async function AnimalPage(props: PageProps<"/adopciones/[slug]">)
               contactará para conocerte mejor.
             </p>
             <div className="mt-6">
-              <AdoptarForm nombreAnimal={animal.nombre} />
+              <AdoptarForm animalId={animal.id} nombreAnimal={animal.nombre} />
             </div>
           </div>
         </Reveal>

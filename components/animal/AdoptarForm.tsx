@@ -5,7 +5,8 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 import { motion } from "framer-motion";
-import { PawPrint, CheckCircle2 } from "lucide-react";
+import { PawPrint, CheckCircle2, AlertTriangle } from "lucide-react";
+import { createClient } from "@/lib/supabase/client";
 
 const schema = z.object({
   nombre: z.string().min(2, "Cuéntanos tu nombre"),
@@ -16,8 +17,9 @@ const schema = z.object({
 
 type FormData = z.infer<typeof schema>;
 
-export function AdoptarForm({ nombreAnimal }: { nombreAnimal: string }) {
+export function AdoptarForm({ animalId, nombreAnimal }: { animalId: string; nombreAnimal: string }) {
   const [enviado, setEnviado] = useState(false);
+  const [errorEnvio, setErrorEnvio] = useState(false);
   const {
     register,
     handleSubmit,
@@ -25,10 +27,23 @@ export function AdoptarForm({ nombreAnimal }: { nombreAnimal: string }) {
   } = useForm<FormData>({ resolver: zodResolver(schema) });
 
   async function onSubmit(data: FormData) {
-    // TODO: conectar con /api/solicitudes (Supabase) + notificación interna (Resend)
-    // cuando el backend de Fase 1 esté disponible.
-    await new Promise((r) => setTimeout(r, 700));
-    console.log("Solicitud de adopción", { animal: nombreAnimal, ...data });
+    setErrorEnvio(false);
+    const supabase = createClient();
+    // TODO: además de insertar, disparar notificación interna al equipo
+    // (correo vía Resend u otro proveedor) cuando se conecte.
+    const { error } = await supabase.from("solicitudes_apoyo").insert({
+      tipo: "adopcion",
+      animal_id: animalId,
+      nombre_animal: nombreAnimal,
+      nombre_contacto: data.nombre,
+      telefono: data.telefono,
+      email: data.email,
+      descripcion: data.mensaje || `Solicitud de adopción para ${nombreAnimal}.`,
+    });
+    if (error) {
+      setErrorEnvio(true);
+      return;
+    }
     setEnviado(true);
   }
 
@@ -53,6 +68,12 @@ export function AdoptarForm({ nombreAnimal }: { nombreAnimal: string }) {
 
   return (
     <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
+      {errorEnvio && (
+        <p className="flex items-center gap-2 rounded-xl bg-brand/10 px-4 py-2.5 text-sm text-brand-dark">
+          <AlertTriangle className="h-4 w-4 shrink-0" />
+          No pudimos enviar tu solicitud. Revisa tu conexión e intenta de nuevo.
+        </p>
+      )}
       <div className="grid gap-4 sm:grid-cols-2">
         <div>
           <label className="text-sm font-medium text-ink">Tu nombre</label>
