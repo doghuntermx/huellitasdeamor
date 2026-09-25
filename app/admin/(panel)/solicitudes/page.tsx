@@ -18,6 +18,12 @@ const estadoBadge: Record<EstadoSolicitud, string> = {
   atendida: "bg-ink text-cream",
 };
 
+const tipoLabel: Record<string, string> = {
+  reporte_calle: "Reporte de calle",
+  apoyo_mascota_propia: "Apoyo mascota propia",
+  adopcion: "Solicitud de adopción",
+};
+
 export default function AdminSolicitudesPage() {
   const { solicitudes, updateEstadoSolicitud } = useAdminData();
   const [abierto, setAbierto] = useState<string | null>(null);
@@ -57,8 +63,8 @@ export default function AdminSolicitudesPage() {
                 <div>
                   <p className="font-medium text-ink">{s.nombreContacto}</p>
                   <p className="text-xs text-ink-soft">
-                    {s.tipo === "reporte_calle" ? "Reporte de calle" : `Apoyo para ${s.nombreAnimal ?? "mascota propia"}`}{" "}
-                    · {s.createdAt}
+                    {tipoLabel[s.tipo] ?? s.tipo}
+                    {s.nombreAnimal && ` — ${s.nombreAnimal}`} · {s.createdAt}
                   </p>
                 </div>
                 <div className="flex items-center gap-3">

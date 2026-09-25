@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import Link from "next/link";
-import { Plus, Pencil, Trash2, Star } from "lucide-react";
+import { Plus, Pencil, Trash2, Star, AlertCircle } from "lucide-react";
 import { useAdminData } from "@/lib/admin/store";
 import { cn } from "@/lib/utils";
 
@@ -13,8 +13,9 @@ const estadoLabel: Record<string, string> = {
 };
 
 export default function AdminAnimalesPage() {
-  const { animales, cargandoAnimales, deleteAnimal } = useAdminData();
+  const { animales, cargando, deleteAnimal } = useAdminData();
   const [confirmarBorrar, setConfirmarBorrar] = useState<string | null>(null);
+  const [error, setError] = useState<string | null>(null);
 
   return (
     <div>
@@ -22,7 +23,7 @@ export default function AdminAnimalesPage() {
         <div>
           <h1 className="font-display text-2xl font-semibold text-ink">Animales</h1>
           <p className="mt-1 text-sm text-ink-soft">
-            {cargandoAnimales ? "Cargando desde Supabase…" : `${animales.length} en el catálogo`}
+            {cargando ? "Cargando desde Supabase…" : `${animales.length} en el catálogo`}
           </p>
         </div>
         <Link
@@ -33,6 +34,13 @@ export default function AdminAnimalesPage() {
           Nuevo animal
         </Link>
       </div>
+
+      {error && (
+        <p className="mt-4 flex items-center gap-2 rounded-xl bg-brand/10 px-4 py-2.5 text-sm text-brand-dark">
+          <AlertCircle className="h-4 w-4 shrink-0" />
+          {error}
+        </p>
+      )}
 
       <div className="mt-6 overflow-x-auto rounded-2xl bg-white shadow-sm ring-1 ring-ink/5">
         <table className="w-full min-w-[720px] text-left text-sm">
@@ -78,8 +86,10 @@ export default function AdminAnimalesPage() {
                     </Link>
                     {confirmarBorrar === a.id ? (
                       <button
-                        onClick={() => {
-                          deleteAnimal(a.id);
+                        onClick={async () => {
+                          setError(null);
+                          const err = await deleteAnimal(a.id);
+                          if (err) setError(err);
                           setConfirmarBorrar(null);
                         }}
                         className="rounded-lg bg-brand px-2.5 py-1.5 text-xs font-semibold text-cream"

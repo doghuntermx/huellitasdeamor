@@ -30,9 +30,9 @@ export default function AdminDonativosPage() {
       </p>
 
       <div className="mt-4 rounded-2xl bg-brand/5 px-5 py-3 text-xs text-ink-soft ring-1 ring-brand/10">
-        Solo lectura: el estado real de cada donativo lo confirma el webhook
-        de la pasarela de pago (Clip), no este panel. Este listado es de
-        muestra.
+        Datos reales de Supabase. El estado real de cada donativo lo confirma
+        el webhook de la pasarela de pago (Clip) una vez conectada — hasta
+        entonces, todo queda registrado como &ldquo;Pendiente&rdquo;.
       </div>
 
       <div className="mt-6 overflow-x-auto rounded-2xl bg-white shadow-sm ring-1 ring-ink/5">

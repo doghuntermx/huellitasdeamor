@@ -1,9 +1,11 @@
 "use client";
 
+import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 import { useRouter } from "next/navigation";
+import { AlertCircle } from "lucide-react";
 import type { Animal } from "@/lib/types";
 import { useAdminData } from "@/lib/admin/store";
 
@@ -51,15 +53,16 @@ function toFormValues(a?: Animal): FormData {
 export function AnimalForm({ animal }: { animal?: Animal }) {
   const router = useRouter();
   const { addAnimal, updateAnimal } = useAdminData();
+  const [error, setError] = useState<string | null>(null);
   const {
     register,
     handleSubmit,
     formState: { errors, isSubmitting },
   } = useForm<FormData>({ resolver: zodResolver(schema), defaultValues: toFormValues(animal) });
 
-  function onSubmit(data: FormData) {
-    const payload: Animal = {
-      id: animal?.id ?? crypto.randomUUID(),
+  async function onSubmit(data: FormData) {
+    setError(null);
+    const payload: Omit<Animal, "id"> = {
       nombre: data.nombre,
       slug: data.slug,
       especie: data.especie,
@@ -77,16 +80,22 @@ export function AnimalForm({ animal }: { animal?: Animal }) {
       destacado: data.destacado,
     };
 
-    if (animal) {
-      updateAnimal(animal.id, payload);
-    } else {
-      addAnimal(payload);
+    const err = animal ? await updateAnimal(animal.id, payload) : await addAnimal(payload);
+    if (err) {
+      setError(err);
+      return;
     }
     router.push("/admin/animales");
   }
 
   return (
     <form onSubmit={handleSubmit(onSubmit)} className="max-w-2xl space-y-5">
+      {error && (
+        <p className="flex items-center gap-2 rounded-xl bg-brand/10 px-4 py-2.5 text-sm text-brand-dark">
+          <AlertCircle className="h-4 w-4 shrink-0" />
+          {error}
+        </p>
+      )}
       <div className="grid gap-4 sm:grid-cols-2">
         <Field label="Nombre" error={errors.nombre?.message}>
           <input {...register("nombre")} className={inputCls} />

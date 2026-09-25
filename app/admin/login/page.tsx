@@ -3,22 +3,27 @@
 import { useState, type FormEvent } from "react";
 import { useRouter } from "next/navigation";
 import Image from "next/image";
-import { Lock, AlertCircle } from "lucide-react";
+import { Lock, Mail, AlertCircle } from "lucide-react";
 import { useAdminAuth } from "@/lib/admin/auth";
 
 export default function AdminLoginPage() {
   const router = useRouter();
   const { login } = useAdminAuth();
+  const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [error, setError] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+  const [submitting, setSubmitting] = useState(false);
 
-  function handleSubmit(e: FormEvent) {
+  async function handleSubmit(e: FormEvent) {
     e.preventDefault();
-    if (login(password)) {
-      router.push("/admin");
-    } else {
-      setError(true);
+    setSubmitting(true);
+    const message = await login(email, password);
+    setSubmitting(false);
+    if (message) {
+      setError(message);
+      return;
     }
+    router.push("/admin");
   }
 
   return (
@@ -32,6 +37,25 @@ export default function AdminLoginPage() {
 
         <form onSubmit={handleSubmit} className="mt-6 space-y-4">
           <div>
+            <label className="text-sm font-medium text-ink">Correo</label>
+            <div className="relative mt-1">
+              <Mail className="pointer-events-none absolute left-3.5 top-1/2 h-4 w-4 -translate-y-1/2 text-ink-soft/60" />
+              <input
+                type="email"
+                value={email}
+                onChange={(e) => {
+                  setEmail(e.target.value);
+                  setError(null);
+                }}
+                className="w-full rounded-xl border border-ink/10 bg-white py-2.5 pl-10 pr-4 text-sm outline-none focus:border-brand"
+                placeholder="tu@huellitasdeamor.org"
+                autoFocus
+                required
+              />
+            </div>
+          </div>
+
+          <div>
             <label className="text-sm font-medium text-ink">Contraseña</label>
             <div className="relative mt-1">
               <Lock className="pointer-events-none absolute left-3.5 top-1/2 h-4 w-4 -translate-y-1/2 text-ink-soft/60" />
@@ -40,33 +64,35 @@ export default function AdminLoginPage() {
                 value={password}
                 onChange={(e) => {
                   setPassword(e.target.value);
-                  setError(false);
+                  setError(null);
                 }}
                 className="w-full rounded-xl border border-ink/10 bg-white py-2.5 pl-10 pr-4 text-sm outline-none focus:border-brand"
                 placeholder="••••••••"
-                autoFocus
+                required
               />
             </div>
             {error && (
               <p className="mt-1.5 flex items-center gap-1 text-xs text-brand">
                 <AlertCircle className="h-3.5 w-3.5" />
-                Contraseña incorrecta.
+                {error === "Invalid login credentials"
+                  ? "Correo o contraseña incorrectos."
+                  : error}
               </p>
             )}
           </div>
 
           <button
             type="submit"
-            className="w-full rounded-full bg-brand py-3 text-sm font-semibold text-cream shadow-md shadow-brand/25 transition-transform hover:scale-[1.02]"
+            disabled={submitting}
+            className="w-full rounded-full bg-brand py-3 text-sm font-semibold text-cream shadow-md shadow-brand/25 transition-transform hover:scale-[1.02] disabled:opacity-60"
           >
-            Entrar
+            {submitting ? "Entrando…" : "Entrar"}
           </button>
         </form>
 
         <p className="mt-6 rounded-xl bg-cream-warm p-3 text-center text-xs text-ink-soft">
-          Vista previa de demostración — contraseña: <code className="font-semibold">huellitas2026</code>
-          <br />
-          No hay datos reales conectados todavía.
+          Las cuentas se crean directamente en Supabase — no hay registro
+          público. Si no tienes acceso, pide que te den de alta.
         </p>
       </div>
     </div>

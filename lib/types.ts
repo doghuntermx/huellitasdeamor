@@ -19,7 +19,7 @@ export interface Animal {
   destacado?: boolean;
 }
 
-export type TipoSolicitud = "reporte_calle" | "apoyo_mascota_propia";
+export type TipoSolicitud = "reporte_calle" | "apoyo_mascota_propia" | "adopcion";
 
 export interface CasoExito {
   id: string;
@@ -72,7 +72,7 @@ export interface SocioActivo {
   nivelId: string;
   montoMensual: number;
   fechaAlta: string;
-  estado: "activo" | "cancelado";
+  estado: "pendiente" | "activo" | "cancelado";
 }
 
 export type EstadoDonativo = "pendiente" | "completado" | "fallido";

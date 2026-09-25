@@ -7,69 +7,59 @@ import {
   useState,
   type ReactNode,
 } from "react";
+import type { Session } from "@supabase/supabase-js";
+import { createClient } from "@/lib/supabase/client";
 
 /**
- * Autenticación de DEMO para el mockup del panel. Guarda una bandera en
- * localStorage y compara contra una contraseña fija en el cliente.
+ * Autenticación real con Supabase Auth (email/contraseña).
  *
- * Esto NO es seguro y no debe usarse en producción: cualquier persona con
- * el código fuente puede ver la contraseña y cualquiera puede escribir la
- * bandera de sesión directamente en su navegador.
- *
- * TODO (backend real): reemplazar por Supabase Auth (email/password o
- * magic link) con Row Level Security en las tablas administrables, y mover
- * la verificación de sesión a middleware/servidor.
+ * Tener sesión no basta para ver datos administrativos: las políticas de
+ * RLS (ver supabase/admin-auth.sql) solo permiten leer/escribir a quienes
+ * además aparezcan en la tabla `admins`. Las cuentas se crean a mano desde
+ * el dashboard de Supabase — no hay registro público.
  */
 
-const DEMO_PASSWORD = "huellitas2026";
-const STORAGE_KEY = "huellitas_admin_demo_session";
-
 interface AdminAuth {
-  isAuthenticated: boolean;
+  session: Session | null;
   isLoading: boolean;
-  login: (password: string) => boolean;
-  logout: () => void;
+  login: (email: string, password: string) => Promise<string | null>;
+  logout: () => Promise<void>;
 }
 
 const AdminAuthContext = createContext<AdminAuth | null>(null);
 
 export function AdminAuthProvider({ children }: { children: ReactNode }) {
-  const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [session, setSession] = useState<Session | null>(null);
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
-    // Lectura de localStorage: debe ocurrir tras montar para que el primer
-    // render del cliente coincida con el del servidor (evita mismatch de
-    // hidratación), igual que en components/ui/PawCursor.tsx.
-    try {
-      // eslint-disable-next-line react-hooks/set-state-in-effect
-      setIsAuthenticated(window.localStorage.getItem(STORAGE_KEY) === "true");
-    } catch {
-      // localStorage no disponible (modo privado, etc.) — se queda sin sesión.
-    }
-    setIsLoading(false);
+    const supabase = createClient();
+
+    supabase.auth.getSession().then(({ data }) => {
+      setSession(data.session);
+      setIsLoading(false);
+    });
+
+    const { data: listener } = supabase.auth.onAuthStateChange((_event, newSession) => {
+      setSession(newSession);
+    });
+
+    return () => listener.subscription.unsubscribe();
   }, []);
 
-  function login(password: string) {
-    const ok = password === DEMO_PASSWORD;
-    if (ok) {
-      setIsAuthenticated(true);
-      try {
-        window.localStorage.setItem(STORAGE_KEY, "true");
-      } catch {}
-    }
-    return ok;
+  async function login(email: string, password: string) {
+    const supabase = createClient();
+    const { error } = await supabase.auth.signInWithPassword({ email, password });
+    return error ? error.message : null;
   }
 
-  function logout() {
-    setIsAuthenticated(false);
-    try {
-      window.localStorage.removeItem(STORAGE_KEY);
-    } catch {}
+  async function logout() {
+    const supabase = createClient();
+    await supabase.auth.signOut();
   }
 
   return (
-    <AdminAuthContext.Provider value={{ isAuthenticated, isLoading, login, logout }}>
+    <AdminAuthContext.Provider value={{ session, isLoading, login, logout }}>
       {children}
     </AdminAuthContext.Provider>
   );

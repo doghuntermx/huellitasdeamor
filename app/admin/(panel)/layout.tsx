@@ -27,17 +27,17 @@ const navItems = [
 ];
 
 export default function AdminPanelLayout({ children }: { children: ReactNode }) {
-  const { isAuthenticated, isLoading, logout } = useAdminAuth();
+  const { session, isLoading, logout } = useAdminAuth();
   const router = useRouter();
   const pathname = usePathname();
 
   useEffect(() => {
-    if (!isLoading && !isAuthenticated) {
+    if (!isLoading && !session) {
       router.replace("/admin/login");
     }
-  }, [isLoading, isAuthenticated, router]);
+  }, [isLoading, session, router]);
 
-  if (isLoading || !isAuthenticated) {
+  if (isLoading || !session) {
     return <div className="flex min-h-screen items-center justify-center text-sm text-ink-soft">Cargando…</div>;
   }
 
@@ -80,8 +80,8 @@ export default function AdminPanelLayout({ children }: { children: ReactNode }) 
             Ver sitio público
           </Link>
           <button
-            onClick={() => {
-              logout();
+            onClick={async () => {
+              await logout();
               router.push("/admin/login");
             }}
             className="flex w-full items-center gap-2.5 rounded-xl px-3 py-2.5 text-left text-sm font-medium text-ink-soft hover:bg-cream-warm hover:text-ink"
@@ -95,7 +95,7 @@ export default function AdminPanelLayout({ children }: { children: ReactNode }) 
       <div className="flex-1">
         <div className="flex items-center gap-2 bg-ink px-5 py-2.5 text-xs text-cream md:px-8">
           <AlertTriangle className="h-3.5 w-3.5 shrink-0 text-brand-light" />
-          Vista previa: Animales ya se lee de Supabase, pero editar/crear/borrar aquí solo cambia esta sesión. Solicitudes, Socios y Donativos siguen siendo datos de muestra.
+          Conectado a la base de datos real como {session.user.email}.
         </div>
 
         <nav className="flex gap-1 overflow-x-auto border-b border-ink/10 bg-white px-3 py-2 md:hidden">

@@ -52,7 +52,7 @@ export default function AdminDashboardPage() {
     <div>
       <h1 className="font-display text-2xl font-semibold text-ink">Resumen</h1>
       <p className="mt-1 text-sm text-ink-soft">
-        Vista general del refugio. Los números son datos de muestra.
+        Vista general del refugio, con datos en vivo desde Supabase.
       </p>
 
       <div className="mt-6 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">

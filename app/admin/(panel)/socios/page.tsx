@@ -21,9 +21,10 @@ export default function AdminSociosPage() {
       </p>
 
       <div className="mt-4 rounded-2xl bg-brand/5 px-5 py-3 text-xs text-ink-soft ring-1 ring-brand/10">
-        Solo lectura: el alta y cancelación de socios dependen de la
-        confirmación real del proveedor de cobro recurrente (ver Círculo de
-        Socios). Este listado es de muestra.
+        Datos reales de Supabase. El estado pasa a &ldquo;Activo&rdquo; solo
+        cuando se conecte el proveedor de cobro recurrente y confirme el
+        primer pago — hasta entonces, toda inscripción nueva queda en
+        &ldquo;Pendiente&rdquo; (ver Círculo de Socios).
       </div>
 
       <div className="mt-6 overflow-x-auto rounded-2xl bg-white shadow-sm ring-1 ring-ink/5">
@@ -51,10 +52,12 @@ export default function AdminSociosPage() {
                   <span
                     className={cn(
                       "rounded-full px-2.5 py-1 text-[11px] font-semibold",
-                      s.estado === "activo" ? "bg-brand/10 text-brand" : "bg-ink/10 text-ink-soft"
+                      s.estado === "activo" && "bg-brand/10 text-brand",
+                      s.estado === "pendiente" && "bg-ink/10 text-ink",
+                      s.estado === "cancelado" && "bg-ink text-cream"
                     )}
                   >
-                    {s.estado === "activo" ? "Activo" : "Cancelado"}
+                    {s.estado === "activo" ? "Activo" : s.estado === "pendiente" ? "Pendiente" : "Cancelado"}
                   </span>
                 </td>
               </tr>
