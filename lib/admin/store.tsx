@@ -128,6 +128,12 @@ export function AdminDataProvider({ children }: { children: ReactNode }) {
     const supabase = createClient();
 
     async function cargarTodo() {
+      // Espera a que la sesión termine de leerse desde las cookies antes de
+      // consultar: si no, estas llamadas pueden salir sin el token de
+      // autenticación y las políticas de RLS para admins las bloquean.
+      await supabase.auth.getSession();
+      if (cancelado) return;
+
       const [a, s, so, d] = await Promise.all([
         supabase.from("animales").select("*").order("created_at", { ascending: false }),
         supabase.from("solicitudes_apoyo").select("*").order("created_at", { ascending: false }),

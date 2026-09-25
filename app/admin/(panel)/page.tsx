@@ -5,6 +5,12 @@ import { PawPrint, Inbox, Users, HeartHandshake, ArrowRight } from "lucide-react
 import { useAdminData } from "@/lib/admin/store";
 import { formatMXN } from "@/lib/utils";
 
+const tipoLabel: Record<string, string> = {
+  reporte_calle: "Reporte de calle",
+  apoyo_mascota_propia: "Apoyo mascota propia",
+  adopcion: "Solicitud de adopción",
+};
+
 export default function AdminDashboardPage() {
   const { animales, solicitudes, socios, donativos } = useAdminData();
 
@@ -86,8 +92,7 @@ export default function AdminDashboardPage() {
                 <div>
                   <p className="font-medium text-ink">{s.nombreContacto}</p>
                   <p className="text-xs text-ink-soft">
-                    {s.tipo === "reporte_calle" ? "Reporte de calle" : "Apoyo mascota propia"} ·{" "}
-                    {s.createdAt}
+                    {tipoLabel[s.tipo] ?? s.tipo} · {s.createdAt}
                   </p>
                 </div>
                 <span
