@@ -15,5 +15,5 @@ jobs:
       - name: Consultar animales
         run: |
           curl --fail --silent --show-error \
-            "https://icascgyznffdvornwutz.supabase.co/rest/v1/animales?select=id&limit=1" \
-            -H "apikey: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImljYXNjZ3l6bmZmZHZvcm53dXR6Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTAyNzU4NzMsImV4cCI6MjEwNTg1MTg3M30.LvhSqi-pRpclsjFxfUxKpUj-kSXkum-fhfSzXQM-AxU"
+            "https://jtgrtdkzzmoxxsmetnfz.supabase.co/rest/v1/animales?select=id&limit=1" \
+            -H "apikey: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imp0Z3J0ZGt6em1veHhzbWV0bmZ6Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTEwNjM2NjksImV4cCI6MjEwNjYzOTY2OX0.gRubUaVtT0Vq_uKcTJ39hLTgxvp61wQAl8FWQTrvovo"
