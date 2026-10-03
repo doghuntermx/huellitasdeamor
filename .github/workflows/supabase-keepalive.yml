@@ -1,0 +1,19 @@
+name: Supabase keepalive
+
+# Los proyectos gratuitos de Supabase se pausan tras ~1 semana sin actividad.
+# Esta consulta ligera semanal lo mantiene activo. La anon key es pública por
+# diseño (ya viaja en el JavaScript del sitio), por eso no es un secreto.
+on:
+  schedule:
+    - cron: "0 15 * * 1"
+  workflow_dispatch:
+
+jobs:
+  ping:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Consultar animales
+        run: |
+          curl --fail --silent --show-error \
+            "https://icascgyznffdvornwutz.supabase.co/rest/v1/animales?select=id&limit=1" \
+            -H "apikey: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImljYXNjZ3l6bmZmZHZvcm53dXR6Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTAyNzU4NzMsImV4cCI6MjEwNTg1MTg3M30.LvhSqi-pRpclsjFxfUxKpUj-kSXkum-fhfSzXQM-AxU"
