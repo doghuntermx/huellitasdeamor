@@ -1,6 +1,8 @@
 import Link from "next/link";
 import Image from "next/image";
 import { Mail, Phone, Heart } from "lucide-react";
+import { WhatsAppIcon } from "@/components/ui/WhatsAppIcon";
+import { WHATSAPP_DISPLAY, whatsappHabilitado, whatsappUrl } from "@/lib/contacto";
 
 function InstagramIcon(props: React.SVGProps<SVGSVGElement>) {
   return (
@@ -70,10 +72,24 @@ export function Footer() {
                   contacto@huellitasdeamor.org
                 </a>
               </li>
-              <li className="flex items-center gap-2">
-                <Phone className="h-4 w-4 text-brand-light" />
-                <span>Escríbenos, respondemos rápido</span>
-              </li>
+              {whatsappHabilitado ? (
+                <li className="flex items-center gap-2">
+                  <WhatsAppIcon className="h-4 w-4 text-brand-light" />
+                  <a
+                    href={whatsappUrl("Hola, me gustaría información sobre Huellitas de Amor.")}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="hover:text-brand-light"
+                  >
+                    WhatsApp {WHATSAPP_DISPLAY}
+                  </a>
+                </li>
+              ) : (
+                <li className="flex items-center gap-2">
+                  <Phone className="h-4 w-4 text-brand-light" />
+                  <span>Escríbenos, respondemos rápido</span>
+                </li>
+              )}
               <li className="flex items-center gap-3 pt-1">
                 <a href="#" aria-label="Instagram" className="rounded-full bg-white/10 p-2 hover:bg-brand">
                   <InstagramIcon className="h-4 w-4" />

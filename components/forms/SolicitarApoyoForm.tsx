@@ -9,6 +9,7 @@ import { AlertTriangle, Stethoscope, CheckCircle2, ArrowLeft } from "lucide-reac
 import type { TipoSolicitud } from "@/lib/types";
 import { cn } from "@/lib/utils";
 import { createClient } from "@/lib/supabase/client";
+import { whatsappHabilitado, whatsappUrl } from "@/lib/contacto";
 
 const baseFields = {
   nombreContacto: z.string().min(2, "Cuéntanos tu nombre"),
@@ -62,8 +63,23 @@ export function SolicitarApoyoForm() {
         </h2>
         <p className="mt-2 text-sm text-ink-soft">
           Nuestro equipo la revisará y te contactará en un plazo de 2 a 3 días
-          hábiles. Si es una urgencia médica, por favor contáctanos también
-          por teléfono.
+          hábiles.
+          {whatsappHabilitado ? (
+            <>
+              {" "}Si es una urgencia, escríbenos también por{" "}
+              <a
+                href={whatsappUrl("Hola, acabo de enviar una solicitud de apoyo y es urgente.")}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="font-semibold text-brand hover:underline"
+              >
+                WhatsApp
+              </a>
+              .
+            </>
+          ) : (
+            " Si es una urgencia médica, por favor contáctanos también por teléfono."
+          )}
         </p>
       </motion.div>
     );
