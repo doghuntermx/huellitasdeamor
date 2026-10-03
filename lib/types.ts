@@ -87,3 +87,33 @@ export interface Donativo {
   emailDonante: string;
   createdAt: string;
 }
+
+export interface AliadoBeneficio {
+  id: string;
+  nombre: string;
+  categoria: string;
+  descripcionBeneficio: string;
+  logoUrl: string;
+  sitioWeb?: string;
+}
+
+export interface Patrocinador {
+  id: string;
+  nombre: string;
+  descripcion?: string;
+  logoUrl: string;
+  sitioWeb?: string;
+  nivel: "aliado" | "institucional";
+}
+
+export interface BlogPost {
+  id: string;
+  slug: string;
+  titulo: string;
+  extracto: string;
+  contenido: string[];
+  imagenPortada: string;
+  autor: string;
+  publicadoEn: string;
+  territorio?: string;
+}

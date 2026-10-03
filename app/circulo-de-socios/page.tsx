@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
-import { ArrowDown, Users } from "lucide-react";
+import Link from "next/link";
+import { ArrowDown, ArrowRight, Users } from "lucide-react";
 import { nivelesSocio } from "@/lib/data/socios";
 import { CirculoSociosClient } from "@/components/socios/CirculoSociosClient";
 import { Reveal } from "@/components/ui/Reveal";
@@ -66,6 +67,16 @@ export default function CirculoDeSociosPage() {
         </Reveal>
 
         <CirculoSociosClient niveles={nivelesSocio} />
+
+        <Reveal delay={0.15} className="mt-10 text-center">
+          <Link
+            href="/aliados-de-beneficios"
+            className="group inline-flex items-center gap-1.5 text-sm font-semibold text-brand"
+          >
+            Conoce los descuentos de nuestros aliados para socios
+            <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
+          </Link>
+        </Reveal>
       </section>
     </div>
   );

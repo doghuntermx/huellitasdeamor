@@ -27,7 +27,7 @@ export function Footer() {
     <footer className="relative overflow-hidden bg-ink text-cream">
       <div className="pointer-events-none absolute -right-16 -top-16 h-64 w-64 rounded-full bg-brand/10 blur-3xl" />
       <div className="mx-auto max-w-6xl px-5 py-14 md:px-8">
-        <div className="grid gap-10 md:grid-cols-[1.3fr_1fr_1fr]">
+        <div className="grid gap-10 md:grid-cols-[1.1fr_0.9fr_0.9fr_0.9fr]">
           <div>
             <div className="flex items-center gap-3">
               <Image
@@ -57,6 +57,17 @@ export function Footer() {
               <li><Link href="/circulo-de-socios" className="text-cream/80 hover:text-brand-light">Círculo de Socios</Link></li>
               <li><Link href="/donar" className="text-cream/80 hover:text-brand-light">Donar</Link></li>
               <li><Link href="/solicitar-apoyo" className="text-cream/80 hover:text-brand-light">Solicitar Apoyo</Link></li>
+            </ul>
+          </div>
+
+          <div>
+            <h3 className="font-display text-sm font-semibold uppercase tracking-wider text-cream/50">
+              Comunidad
+            </h3>
+            <ul className="mt-4 space-y-2.5 text-sm">
+              <li><Link href="/blog" className="text-cream/80 hover:text-brand-light">Blog</Link></li>
+              <li><Link href="/aliados-de-beneficios" className="text-cream/80 hover:text-brand-light">Aliados de Beneficios</Link></li>
+              <li><Link href="/patrocinadores" className="text-cream/80 hover:text-brand-light">Patrocinadores</Link></li>
               <li><Link href="/contacto" className="text-cream/80 hover:text-brand-light">Contacto</Link></li>
             </ul>
           </div>
