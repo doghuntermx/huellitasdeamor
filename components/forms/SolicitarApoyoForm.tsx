@@ -10,6 +10,7 @@ import type { TipoSolicitud } from "@/lib/types";
 import { cn } from "@/lib/utils";
 import { createClient } from "@/lib/supabase/client";
 import { whatsappHabilitado, whatsappUrl } from "@/lib/contacto";
+import { AvisoPrivacidadNota } from "@/components/ui/AvisoPrivacidadNota";
 
 const baseFields = {
   nombreContacto: z.string().min(2, "Cuéntanos tu nombre"),
@@ -184,6 +185,7 @@ function ReporteForm({ onSuccess }: { onSuccess: () => void }) {
       <Field label="Correo (opcional)" error={errors.email?.message}>
         <input {...register("email")} className={inputCls} />
       </Field>
+      <AvisoPrivacidadNota />
       <SubmitButton submitting={isSubmitting} label="Enviar reporte" />
     </form>
   );
@@ -237,6 +239,7 @@ function PropiaForm({ onSuccess }: { onSuccess: () => void }) {
       <Field label="Correo (opcional)" error={errors.email?.message}>
         <input {...register("email")} className={inputCls} />
       </Field>
+      <AvisoPrivacidadNota />
       <SubmitButton submitting={isSubmitting} label="Enviar solicitud" />
     </form>
   );

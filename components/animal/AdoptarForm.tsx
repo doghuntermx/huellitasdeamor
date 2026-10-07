@@ -7,6 +7,7 @@ import { z } from "zod";
 import { motion } from "framer-motion";
 import { PawPrint, CheckCircle2, AlertTriangle } from "lucide-react";
 import { createClient } from "@/lib/supabase/client";
+import { AvisoPrivacidadNota } from "@/components/ui/AvisoPrivacidadNota";
 
 const schema = z.object({
   nombre: z.string().min(2, "Cuéntanos tu nombre"),
@@ -113,6 +114,7 @@ export function AdoptarForm({ animalId, nombreAnimal }: { animalId: string; nomb
           className="mt-1 w-full rounded-xl border border-ink/10 bg-white px-4 py-2.5 text-sm outline-none focus:border-brand"
         />
       </div>
+      <AvisoPrivacidadNota />
       <button
         type="submit"
         disabled={isSubmitting}

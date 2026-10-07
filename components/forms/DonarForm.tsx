@@ -9,6 +9,7 @@ import { motion } from "framer-motion";
 import { CreditCard, Landmark, Store, Heart, AlertTriangle } from "lucide-react";
 import { cn, formatMXN } from "@/lib/utils";
 import { createClient } from "@/lib/supabase/client";
+import { AvisoPrivacidadNota } from "@/components/ui/AvisoPrivacidadNota";
 
 const montosSugeridos = [150, 300, 500, 1000];
 
@@ -163,6 +164,7 @@ export function DonarForm() {
           no es donataria autorizada, por lo que este donativo no es deducible
           de impuestos.
         </p>
+        <AvisoPrivacidadNota className="mt-1 text-xs text-ink-soft/70" />
       </div>
 
       <button

@@ -114,7 +114,12 @@ export function Footer() {
         </div>
 
         <div className="mt-12 flex flex-col items-center justify-between gap-4 border-t border-cream/10 pt-6 text-xs text-cream/50 md:flex-row">
-          <p>© {new Date().getFullYear()} Huellitas de Amor A.C. — Todos los derechos reservados.</p>
+          <p>
+            © {new Date().getFullYear()} Huellitas de Amor A.C. — Todos los derechos reservados.{" "}
+            <Link href="/aviso-de-privacidad" className="underline underline-offset-2 hover:text-brand-light">
+              Aviso de Privacidad
+            </Link>
+          </p>
           <p className="flex items-center gap-1.5">
             Hecho con <Heart className="h-3.5 w-3.5 fill-brand-light text-brand-light" /> por{" "}
             <a

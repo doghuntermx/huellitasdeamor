@@ -9,6 +9,7 @@ import { CreditCard, HeartHandshake, AlertTriangle } from "lucide-react";
 import type { NivelSocio } from "@/lib/types";
 import { formatMXN } from "@/lib/utils";
 import { createClient } from "@/lib/supabase/client";
+import { AvisoPrivacidadNota } from "@/components/ui/AvisoPrivacidadNota";
 
 const schema = z.object({
   nombre: z.string().min(2, "Cuéntanos tu nombre"),
@@ -124,6 +125,8 @@ export function SocioForm({ nivel }: { nivel: NivelSocio }) {
         </a>
         .
       </p>
+
+      <AvisoPrivacidadNota />
 
       <button
         type="submit"
